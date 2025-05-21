@@ -10,7 +10,7 @@ from mnist_net import Net
 
 
 if __name__ == '__main__':
-    job_dir, bucket_name = sys.argv[1:]
+    job_dir, bucket_name, mlflow_tracking_server = sys.argv[1:]
 
     n_clients = 3
     num_rounds = 10
@@ -29,7 +29,7 @@ if __name__ == '__main__':
     job.to_server(cse_ctrl)
     
     receiver = MLflowReceiver(
-        tracking_uri=os.environ.get('MLFLOW_TRACKING_SERVER', ''),
+        tracking_uri=mlflow_tracking_server,
         kw_args={
             "experiment_name": "MNIST FLARE Experiment",
             "run_name": 'nvflare-mnist',
