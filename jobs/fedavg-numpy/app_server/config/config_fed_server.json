@@ -1,0 +1,29 @@
+{
+    "format_version": 2,
+    "workflows": [
+        {
+            "id": "controller",
+            "path": "fedavg.FedAvg",
+            "args": {
+                "num_rounds": 3
+            }
+        }
+    ],
+    "components": [
+        {
+            "id": "persistor",
+            "path": "nvflare.app_common.np.np_model_persistor.NPModelPersistor",
+            "args": {}
+        },
+        {
+            "id": "component",
+            "path": "nvflare.app_common.widgets.intime_model_selector.IntimeModelSelector",
+            "args": {
+                "aggregation_weights": {},
+                "key_metric": "accuracy"
+            }
+        }
+    ],
+    "task_data_filters": [],
+    "task_result_filters": []
+}
