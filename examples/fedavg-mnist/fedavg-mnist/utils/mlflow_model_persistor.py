@@ -52,7 +52,7 @@ class PTMlflowModelPersistor(PTFileModelPersistor):
         model.eval()
 
         run_id = fl_ctx.get_prop('SERVER_MLFLOW_RUN_ID')
-        artifact_path = os.path.join('server', os.path.basename(save_path))
+        artifact_path = DefaultCheckpointFileName.BEST_GLOBAL_MODEL
 
         signature = None
         if self.sample_input_size is not None:
