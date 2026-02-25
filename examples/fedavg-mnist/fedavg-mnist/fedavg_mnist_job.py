@@ -6,6 +6,7 @@ from nvflare.job_config.script_runner import FrameworkType, ScriptRunner
 from nvflare.app_common.workflows.cross_site_model_eval import CrossSiteModelEval
 from nvflare.app_opt.tracking.mlflow.mlflow_receiver import MLflowReceiver
 
+from utils.mlflow_model_persistor import PTMlflowModelPersistor
 from mnist_net import Net
 
 
@@ -19,8 +20,12 @@ if __name__ == '__main__':
         initial_model=Net(),
         n_clients=n_clients,
         num_rounds=num_rounds,
-        name=f'fedavg-mnist',
+        name='fedavg-mnist',
         key_metric='accuracy',
+        model_persistor=PTMlflowModelPersistor(
+            model=Net(),
+            sample_input_size=(1, 1, 28, 28),
+        ),
     )
 
     cse_ctrl = CrossSiteModelEval(
