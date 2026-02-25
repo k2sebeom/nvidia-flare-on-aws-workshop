@@ -62,7 +62,7 @@ class PTMlflowModelPersistor(PTFileModelPersistor):
         with mlflow.start_run(run_id=run_id):
             mlflow.pytorch.log_model(
                 torch.jit.script(model),
-                artifact_path=artifact_path,
+                artifact_path='best_model',
                 signature=signature,
                 pip_requirements=['torch', 'mlflow', 'cloudpickle', 'pandas'],
             )
