@@ -23,7 +23,7 @@ DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 def get_accuracy(model: Net, args: argparse.Namespace):
     dataset = DigitDataset.load(
         f'{DATASET_PATH}/test.pt',
-        bucket_name=f'{args.bucket_name}-{flare.get_site_name()}',
+        bucket_name=args.bucket_name,
         download=f'{flare.get_site_name()}_test.pt'
     )
 
@@ -50,7 +50,7 @@ def _train(input_model: FLModel, args: argparse.Namespace):
 
     dataset = DigitDataset.load(
         f'{DATASET_PATH}/train.pt',
-        bucket_name=f'{bucket_name}-{flare.get_site_name()}',
+        bucket_name=bucket_name,
         download=f'{flare.get_site_name()}.pt'
     )
     train_loader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
