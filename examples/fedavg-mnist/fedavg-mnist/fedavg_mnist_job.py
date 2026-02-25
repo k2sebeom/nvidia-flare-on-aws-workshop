@@ -1,7 +1,8 @@
 import os
 import sys
 
-from nvflare.app_opt.pt.job_config.fed_avg import FedAvgJob
+from nvflare.app_common.workflows.fedavg import FedAvg
+from nvflare.app_opt.pt.job_config.base_fed_job import BaseFedJob
 from nvflare.job_config.script_runner import FrameworkType, ScriptRunner
 from nvflare.app_common.workflows.cross_site_model_eval import CrossSiteModelEval
 from nvflare.app_opt.tracking.mlflow.mlflow_receiver import MLflowReceiver
@@ -15,18 +16,23 @@ if __name__ == '__main__':
 
     n_clients = 3
     num_rounds = 10
-    
-    job = FedAvgJob(
+
+    job = BaseFedJob(
         initial_model=Net(),
-        n_clients=n_clients,
-        num_rounds=num_rounds,
         name='fedavg-mnist',
+        min_clients=1,
         key_metric='accuracy',
         model_persistor=PTMlflowModelPersistor(
             model=Net(),
             sample_input_size=(1, 1, 28, 28),
         ),
     )
+    controller = FedAvg(
+        num_clients=n_clients,
+        num_rounds=num_rounds,
+        persistor_id=job.comp_ids['persistor_id'],
+    )
+    job.to_server(controller)
 
     cse_ctrl = CrossSiteModelEval(
         model_locator_id=job.comp_ids['locator_id'],
